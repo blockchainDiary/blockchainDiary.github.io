@@ -650,7 +650,6 @@ function authenticate(response){
     else if(response.execute_err!=""){
         $scope.signupLoader = false;
         $scope.signUpError = response.result;
-        document.getElementById("signUpError").scrollIntoView();
         delete $scope.nameOfUser;
         delete $scope.usernameOfUser;
         delete $scope.authenticatingPinOfUser;
