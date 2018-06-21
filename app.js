@@ -155,7 +155,7 @@ var app = angular.module('app', ['ui.router']);
             $scope.noWebExtension = true;
         }
 
-        var dappAddress = "n1iYoXvNEwTj5mzrYApPGZgnLePL7nENn6k";
+        var dappAddress = "n1rWovrRDQtAeVrd51hKeZhCjEnPE7of4WC";
 
         $scope.loginPage=false;
         $scope.passMatch=true;
@@ -960,6 +960,7 @@ else{
                 blogFuncCalled = 0;
                 $scope.blogSuccess = true;
                 $scope.blogStatus = "Your blog has been successfully submitted."
+                $scope.deleteSuccess = false;
                 $interval.cancel(executeTxn);
                 $scope.erase();
                 if($scope.state.current.name=="profile"){
