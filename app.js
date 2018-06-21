@@ -848,7 +848,7 @@ else{
         if (result === 'null'){
             $scope.homeLoader = false;
             $scope.loaderRunning = false;
-            $scope.loginError = "Sorry, we couldn't get a response from Blockchain. Please try again after some time.";
+            $scope.loginError = response.execute_err;
             console.log($scope.loginError);
         } else{
             try{
@@ -932,6 +932,7 @@ else{
     } 
 
     $scope.blog=function(blogInput){
+        $scope.blogInput = blogInput;
         if(angular.isDefined(blogInput) && blogInput!=''){
         var callArgs = "[\"" + $scope.userCredentials.userName + "\", \"" + blogInput + "\"]";
 
@@ -1043,7 +1044,7 @@ function userProfile(response){
     var result = response.result;
 
         if (result === 'null'){
-            $scope.retrievingProfileError = "Sorry, we couldn't get a response from Blockchain. Please try again after some time.";
+            $scope.retrievingProfileError = response.execute_err;
             $scope.profileLoader = false;
         } else{
             try{
