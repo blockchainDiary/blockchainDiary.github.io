@@ -1030,7 +1030,6 @@ else{
 $scope.profilePage =function(){
     $scope.profileLoader = true;
     $scope.commentSuccess = false;
-    $scope.deleteSuccess = false;
     if(!$scope.settingsSuccess){
         $scope.settingsPage = false;
     }
@@ -1061,7 +1060,7 @@ function userProfile(response){
                 var deleteParams = [];
                 deleteParams.deleteSuccess = $scope.deleteSuccess;
                 deleteParams.deleteStatus = $scope.deleteStatus;
-                if(($scope.state.current.name!="profile") || ($scope.state.current.name=="profile" && $scope.blogSuccess)){
+                if(($scope.state.current.name!="profile") || ($scope.state.current.name=="profile" && ($scope.blogSuccess || $scope.deleteSuccess))){
                 $state.go('profile', {deleteVariables:deleteParams, userCreds: $scope.userCredentials});
                 }
                 $scope.profileLoader = false;
