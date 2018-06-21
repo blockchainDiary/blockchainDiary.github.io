@@ -1051,7 +1051,7 @@ function userProfile(response){
             }catch (err){
             }
 
-            if (result.userName){      //"return value"
+            if (angular.isDefined(result) && result.userName){      //"return value"
                 $scope.loginSuccess = true;
                 $scope.loginError = false;
                 $scope.signUpSuccess = false;
@@ -1127,7 +1127,7 @@ function visitProfile(response){
             }catch (err){
             }
 
-            if (result.userName){
+            if (angular.isDefined(result) && result.userName){
             if($scope.state.current.name!="otherUsers"){      //"return value"
                 $state.go('otherUsers', {otherUserProfile: result, userCreds: $scope.userCredentials, viewedUser: $scope.viewedUser,
                     commentVariables:$scope.commentVariables, isfollowing:$scope.isfollowing});
