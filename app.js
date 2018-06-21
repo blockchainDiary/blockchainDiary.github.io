@@ -779,7 +779,7 @@ else{
             }catch (err){
             }
 
-            if (result.userName){      //"return value"
+            if (angular.isDefined(result) && result.userName){      //"return value"
                 $scope.loginSuccess = true;
                 $scope.userCredentials=result;
                 $scope.loginError = false;
