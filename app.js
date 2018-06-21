@@ -1061,6 +1061,8 @@ function userProfile(response){
                 deleteParams.deleteSuccess = $scope.deleteSuccess;
                 deleteParams.deleteStatus = $scope.deleteStatus;
                 if(($scope.state.current.name!="profile") || ($scope.state.current.name=="profile" && ($scope.blogSuccess || $scope.deleteSuccess))){
+                $scope.blogSuccess = false;
+                $scope.deleteSuccess = false;
                 $state.go('profile', {deleteVariables:deleteParams, userCreds: $scope.userCredentials});
                 }
                 $scope.profileLoader = false;
