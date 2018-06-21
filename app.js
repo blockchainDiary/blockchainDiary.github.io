@@ -1057,7 +1057,7 @@ function userProfile(response){
                 $scope.signUpSuccess = false;
                 $scope.signUpStatus = false;
                 $scope.userCredentials = result;
-                sessionStorage.setItem("userCredentials", JSON.stringify($scope.userCredentials));
+                $scope.$apply();
                 var deleteParams = [];
                 deleteParams.deleteSuccess = $scope.deleteSuccess;
                 deleteParams.deleteStatus = $scope.deleteStatus;
@@ -1067,6 +1067,8 @@ function userProfile(response){
                 $state.go('profile', {deleteVariables:deleteParams, userCreds: $scope.userCredentials});
                 }
                 $scope.profileLoader = false;
+                $scope.userCredentials = result;
+            sessionStorage.setItem("userCredentials", JSON.stringify($scope.userCredentials));
             if($scope.settingsSuccess){
                     $scope.settings();
                 }
