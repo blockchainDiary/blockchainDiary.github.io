@@ -1118,7 +1118,7 @@ function visitProfile(response){
     var result = response.result;
 
         if (result === 'null'){
-            $scope.retrievingProfileError = "Sorry, we couldn't get a response from Blockchain. Please try again after some time.";
+            $scope.retrievingProfileError = response.execute_err;
             if(angular.isDefined($scope.viewLoader) && $scope.viewLoader!=null && angular.isDefined($scope.viewedUserIndex) && $scope.viewedUserIndex!=null){
             $scope.viewLoader[$scope.viewedUserIndex] = false;
             }
