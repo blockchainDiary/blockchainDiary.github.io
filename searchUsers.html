@@ -1,0 +1,45 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20" style="background-color: darkmagenta;">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="form-group">
+                <label class="control-label" for="inputGroup"></label>
+                <div class="input-group">
+                    <input ng-model-options="{allowInvalid: true}" type="text" ng-model="searchTxt" class="form-control"
+                           placeholder="Search" id="inputGroup"/>
+                    <span class="input-group-addon" ng-click="searchUsers(searchTxt)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div><i ng-show="searchLoader" class="fa fa-spinner fa-spin"></i>
+            </div>
+                </div>
+                <a title="Visit Home Page" ng-click="homePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i style="font-size:25px;" class="fa fa-home"></i><br>Home<br><i ng-show="homeLoader" class="fa fa-spinner fa-spin"></i></a>
+            <div id="blcDiary" class="fc-white name col-lg-6 col-md-6 col-sm-6 col-xs-6">BLOCKCHAIN DIARY</div>
+            <a ng-click="notifications()" title="Your notifications" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding mt10"><i class="fa fa-bell"></i><!-- <span class="notification-counter">1</span> --><br>Notifications<br><i ng-show="notificationLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Go to your profile page" ng-click="profilePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-user"></i><br>Profile<br><i ng-show="profileLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Sign Out of Blockchain Diary" ng-click="logout()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-sign-out"></i><br>Log Out</a>
+            
+        </div></div>
+        <div ng-if="noWebExtension" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+<div class="row">
+<div style="margin-bottom:100px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" id="user_list">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" ng-repeat="user in userList">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 alignRight">
+<span style="font-size:30px;">{{user}}</span>
+</div>
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 alignLeft">
+<button id="view_user_profile" title="Go to user profile" style="height:34px;" ng-click="visitUserProfile(user, followed[$index], $index)" class="secondarybutton width100 alterWidth mb20"><i ng-show="viewLoader[$index]" class="fa fa-spinner fa-spin"></i>View</button>
+</div>
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding alignLeft">
+<button ng-if="!followed[$index]" id="follow_user_{{$index}}" title="Follow the user" ng-click="followUser(user, $index)" style="height:34px;" class="width100 alterWidth mb20">Follow</button>
+<button ng-if="followed[$index]" id="follow_user_{{$index}}" title="Unfollow the user" ng-click="unfollowUser(user, $index)" style="height:34px;" class="width100 alterWidth mb20">Unfollow</button>
+</div>
+<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<h4 style="color:darkorange;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt30" ng-if="userList.length<=0">Sorry, it looks like no one else has registered for Blockchain Diary yet. Please invite your friends and family to try this social network out on Blockchain.</h4>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding" ng-include="'footer.html'"></div> -->
+</div></div>

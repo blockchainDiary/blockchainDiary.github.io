@@ -1,0 +1,244 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20" style="background-color: darkmagenta;">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="form-group">
+                <label class="control-label" for="inputGroup"></label>
+                <div class="input-group">
+                    <input ng-model-options="{allowInvalid: true}" type="text" ng-model="searchTxt" class="form-control"
+                           placeholder="Search" id="inputGroup"/>
+                    <span class="input-group-addon" ng-click="searchUsers(searchTxt)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div><i ng-show="searchLoader" class="fa fa-spinner fa-spin"></i>
+            </div>
+                </div>
+            <a title="Visit Home Page" ng-click="homePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i style="font-size:25px;" class="fa fa-home"></i><br>Home<br><i ng-show="homeLoader" class="fa fa-spinner fa-spin"></i></a>
+            <div id="blcDiary" class="fc-white name col-lg-6 col-md-6 col-sm-6 col-xs-6">BLOCKCHAIN DIARY</div>
+            <a ng-click="notifications()" title="Your notifications" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding mt10"><i class="fa fa-bell"></i><!-- <span class="notification-counter">1</span> --><br>Notifications<br><i ng-show="notificationLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Go to your profile page" ng-click="profilePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-user"></i><br>Profile<br><i ng-show="profileLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Sign Out of Blockchain Diary" ng-click="logout()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-sign-out"></i><br>Log Out</a>
+            
+        </div></div>
+        <div ng-if="noWebExtension" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+<div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div ng-if="!settingsPage && !askForAuthentication" class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Your Profile</h3>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row mb30">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Total Updates<br>{{userCredentials.blogCollection.length}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Followed By<br>{{userCredentials.followedBy.length}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Follows<br>{{userCredentials.follows.length}}</div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 alignLeft">
+                    </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 hr"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <textarea rows="1" onfocus="this.rows = '4';" id="blog_input" onblur="if(this.value == '') this.rows = '1';" ng-change="updateBlog(blogText)" placeholder="Blog on Blockchain" type="text" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt30" ng-model="blogText"></textarea><a ng-click="settings()" class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mt30"><i class="fa fa-cog"></i>&ensp;Settings</a>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <button id="blog_button" title="Publish your blog" ng-click="blog(blogText)" style="height:34px; margin-left:0px;" class=" col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Blog</button>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-right:0px;"></div>
+            <button id="erase_button" ng-click="erase()" title="Erase text from the blog input field" style="height:34px; margin-left:0px;" class="secondarybutton col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Erase</button>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <h4 class="successMsg col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-if="blogSuccess">{{blogStatus}}</h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:red; font-weight:bold;" ng-if="blogFailure">{{blogStatus}}</h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:darkorange;" ng-if="blogTakingForever">{{blogStatus}}
+            </h4>
+            <h4 class="successMsg" ng-if="deleteSuccess">{{deleteStatus}}</h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:red; font-weight:bold;" ng-if="deleteFailure">{{deleteStatus}}
+            </h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:darkorange;" ng-if="deleteTakingForever">{{deleteStatus}}
+            </h4>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div></div>
+            
+        
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" style="text-align:left; color:lightcyan;" ng-repeat="blogCollection in userCredentials.blogCollection | reverse">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb20 mt10" id="individualBlog">    
+<span>{{userCredentials.fullName}}</span>&nbsp;<span>@{{userCredentials.userName}}</span><br>
+<span>{{dateFormatter(blogCollection.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(blogCollection.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{blogCollection.blogText}}</div>
+<div class="row col-nopadding">
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <i class="fa fa-comment" title="Comment on this blog" ng-click="commentBlog($index)"></i>
+    <span>&nbsp;{{blogCollection.numberOfComments}}</span>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+<i class="fa fa-trash-o" title="Delete this blog" ng-click="deleteBlog(userCredentials.blogCollection.length-$index-1)"></i>
+</div>
+<div ng-if="commentShown[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-nopadding">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding" ng-repeat="comment in blogCollection.blogComments">
+    <div ng-if="blogCollection.blogComments.length>0" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div ng-if="blogCollection.blogComments.length>0" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 col-nopadding">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <span>{{comment.authorFullName}}</span>&nbsp;<span>@{{comment.authorUserName}}</span><br>
+<span>{{dateFormatter(comment.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(comment.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{comment.comment}}</div></div></div>
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding row">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <textarea class="col-lg-11 col-md-11 col-sm-11 col-xs-11" rows="1" style="border-radius:5px;" onfocus="this.rows = '2';" id="blog_comment" onblur="if(this.value == '') this.rows = '1';" placeholder="Add your comment" ng-change="updateComment(blogComments, $index)" type="text" ng-model="blogComments"></textarea></div></div>
+    <div ng-if="commentPopulated[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 col-nopadding" style="text-align:right;">
+        <button id="comment_button" title="Post your comment" ng-click="postComment(userCredentials.blogCollection.length-$index-1)" style="height:34px; margin-left:0px;" class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 alterWidth mb20">Post</button>
+    </div>
+    </div>
+</div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-class="[$index<(userCredentials.blogCollection.length-1)?'hr':'']"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+</div>
+        </div></div>
+        <div ng-if="settingsPage" class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Settings</h3>
+                    </div>
+            <div ng-if="!askForAuthentication && authenticateSettingsError" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right;">Full Name:</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-nopadding" style="text-align:left;">{{userCredentials.fullName}}</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right;">UserName:</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-nopadding" style="text-align:left;">{{userCredentials.userName}}</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right;">Authenticating Pin:</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-nopadding" style="text-align:left;">******</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right;">Password:</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-nopadding" style="text-align:left;">******</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="text-align:right;">Blockchain Wallet:</div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-nopadding" style="text-align:left;">{{userCredentials.blockchainWallet}}
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">    
+            <button  id="edit_settings" title="Click here to edit your settings" class="width100" ng-click="editSettings()">Edit</button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <button  id="back_to_profile" title="Click to go back to your profile" class="width100 secondarybutton" ng-click="backToProfile()">Back</button>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            </div>
+            <h4 class="successMsg mt30 col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="settingsSuccess">{{settingsStatus}}</h4>
+        </div>
+        <div ng-if="askForAuthentication && authenticateSettingsError" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10" style="color:red; font-weight:bold;" ng-if="settingsAuthenticationError">{{settingsAuthenticationError}}</div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pd5 alignRight">Enter your current password:</div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+                    <input style="width:100%;" id="password_authenticator" type="password" ng-change="updateEnteredPassword(authenticatePassword)" placeholder="Password" ng-model="authenticatePassword" class="pd5">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                <div ng-if="authenticatePasswordLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">You will have to enter your password to be able to edit your settings.</div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pd5 alignRight">Enter your current authenticating pin:</div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+                    <input style="width:100%;" id="pin_authenticator" type="password" ng-change="updateEnteredPin(authenticatePin)" placeholder="Authenticating Pin" class="pd5" ng-model="authenticatePin">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                <div ng-if="authenticatePinLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">You will have to enter your authenticating pin to be able to edit your settings.</div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt20 row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">    
+            <button  id="edit_settings" title="Click to authenticate your entered credentials" class="width100" ng-click="authenticateCredentials(authenticatePassword, authenticatePin)">Authenticate<i ng-show="authLoader" class="fa fa-refresh fa-spin" style="margin-left: 10px;"></i></button>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <button  id="back_to_profile" title="Back to Settings Read Only Page" class="width100 secondarybutton" ng-click="settings()">Back</button>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            </div>
+        </div>
+        <div ng-if="!authenticateSettingsError" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+            <div ng-if="nameValidationError  || userNameValidationError" class="validationMessage col-lg-12 col-md-12 col-sm-12 col-xs-12">Please correct the validation errors first.</div>
+            <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="color:red; font-weight:bold;" ng-if="settingsFailure">{{settingsStatus}}</h4>
+            <h4 class="col-lg12 col-md12 col-sm12 col-xs12" style="color:darkorange;" ng-if="settingsTakingForever">{{settingsStatus}}
+            </h4>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mt30 alignRight">Full Name:</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <ng-form name="fullNameForm">
+            <input ng-model-options="{allowInvalid: true}" id="full_name" name="fullName" placeholder="Full Name" ng-pattern="/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u" type="text" class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-nopadding mb30 mt30" ng-value="userCredentials.fullName" ng-model="fullNameSettings" ng-change="updateName(fullNameSettings)">
+            </ng-form>
+            <i class="fa fa-info-circle col-lg-1 col-md-1 col-sm-1 col-xs-1" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Please enter your full name.')"></i>
+            </div>
+            <div ng-if="!fullNameForm.fullName.$error.pattern" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="fullNameForm.fullName.$error.pattern" id="nameValidError" class="mt30 mb30 alignLeft col-lg-4 col-md-4 col-sm-4 col-xs-4" style="color:red; font-weight:bold;">Name is not valid.</div>
+            <div ng-if="nameLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Name is required. Please enter.</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 alignRight">Username:</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <ng-form name="userNameForm">
+            <input ng-model-options="{allowInvalid: true}" name="userName" id="user_name" placeholder="User Name" ng-change="updateUserName(userNameSettings)" type="text" class="col-lg-10 col-md-10 col-sm-10 mb30 col-nopadding col-xs-10" ng-value="userCredentials.userName" ng-model="userNameSettings" ng-pattern="/^[a-z0-9]{4,}/">
+            </ng-form>
+            <i class="fa fa-info-circle col-lg-1 col-md-1 col-sm-1 col-xs-1" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Enter a user name. This is unique and has to be alphanumeric and greater than 3 characters.')"></i>
+            </div>
+            <div ng-if="!userNameForm.userName.$error.pattern" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="userNameForm.userName.$error.pattern" id="userNameValidError" class="mb30 alignLeft col-lg-4 col-md-4 col-sm-4 col-xs-4" style="color:red; font-weight:bold;">User Name is not valid.</div>
+            <div ng-if="userNameLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">User Name is required. Please enter.</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 alignRight">Blockchain Wallet:</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <ng-form name="blockchainWalletForm">
+            <input id="blockchainWallet_id" ng-model-options="{allowInvalid: true}" placeholder="Blockchain Wallet" ng-change="updateBlockchainWallet(blockchainWalletSettings)" type="text" class="col-nopadding col-lg-10 col-md-10 col-sm-10 col-xs-10 mb30" ng-value="userCredentials.blockchainWallet" ng-model="blockchainWalletSettings">
+            </ng-form>
+            <i class="fa fa-info-circle col-lg-1 col-md-1 col-sm-1 col-xs-1" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Enter your blockchain wallet address. This is your NAS mainnet wallet.')"></i>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="blockchainWalletLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Blockchain Wallet address is required. Please enter.</div>
+            <div id="overlay" ng-click="hideMessage()">
+  <div id="text"></div>
+</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pl5">
+            <button  id="save_settings" class="col-lg-10 col-md-10 col-sm-10 col-xs-10 width100 mb20" style="margin-left:0px;" ng-click="saveSettings()">Save Settings<i ng-show="saveSettingsLoader" class="fa fa-refresh fa-spin" style="margin-left: 10px;"></i></button>
+            <i class="fa fa-info-circle" style="font-size:30px;opacity:0;cursor:auto;"></i>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pl5">
+            <button  id="save_settings" class="col-lg-10 col-md-10 col-sm-10 col-xs-10 secondarybutton width100 mb20" style="margin-left:0px;" ng-click="settings()">Back</button>
+            <i class="fa fa-info-circle" style="font-size:30px;opacity:0;cursor:auto;"></i>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <i class="fa fa-info-circle" style="font-size:30px;opacity:0;cursor:auto;"></i>
+            </div>
+        </div>
+        </div>
+        <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding" ng-include="'footer.html'"></div> -->
+    </div>

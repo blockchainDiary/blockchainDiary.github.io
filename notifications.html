@@ -1,0 +1,48 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20" style="background-color: darkmagenta;">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="form-group">
+                <label class="control-label" for="inputGroup"></label>
+                <div class="input-group">
+                    <input ng-model-options="{allowInvalid: true}" type="text" ng-model="searchTxt" class="form-control"
+                           placeholder="Search" id="inputGroup"/>
+                    <span class="input-group-addon" ng-click="searchUsers(searchTxt)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div><i ng-show="searchLoader" class="fa fa-spinner fa-spin"></i>
+            </div>
+                </div>
+                <a title="Visit Home Page" ng-click="homePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i style="font-size:25px;" class="fa fa-home"></i><br>Home<br><i ng-show="homeLoader" class="fa fa-spinner fa-spin"></i></a>
+            <div id="blcDiary" class="fc-white name col-lg-6 col-md-6 col-sm-6 col-xs-6">BLOCKCHAIN DIARY</div>
+            <a ng-click="notifications()" title="Your notifications" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding mt10"><i class="fa fa-bell"></i><!-- <span class="notification-counter">1</span> --><br>Notifications<br><i ng-show="notificationLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Go to your profile page" ng-click="profilePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-user"></i><br>Profile<br><i ng-show="profileLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Sign Out of Blockchain Diary" ng-click="logout()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-sign-out"></i><br>Log Out</a>
+            
+        </div></div>
+        <div ng-if="noWebExtension" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+<div class="row">
+<div style="margin-bottom:100px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" id="notifications">
+    <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb30">Notifications</h3>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20 row" ng-repeat="notif in notifObj">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div ng-if="notif.notificationType=='system'" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alignLeft mb20 col-nopadding">
+    <span>{{dateFormatter(notif.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(notif.date)}}
+</span><br><div class="blogStyle" style="font-size:25px; border:none;">{{notif.notification}}</div>
+</div>
+<div ng-if="notif.notificationType=='follow'" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alignLeft mb20 col-nopadding">
+    <span>{{dateFormatter(notif.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(notif.date)}}
+</span><br><div class="blogStyle" style="font-size:25px; border:none;"><span title="Go to this user's profile" ng-click="visitUserProfile(notif.authorUserName)" style="cursor:pointer;">{{notif.notification}}</span></div>
+</div>
+<div ng-if="notif.notificationType=='comment'" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alignLeft mb20 col-nopadding">
+    <span>{{dateFormatter(notif.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(notif.date)}}
+</span><br><div class="blogStyle" style="font-size:25px; border:none;"><span style="cursor:pointer;" ng-click="profilePage()" title="Check out the comment by going to your profile">{{notif.notification}}</span></div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-class="[$index<(notifObj.length-1)?'hr':'']"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+</div>
+<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding" ng-include="'footer.html'"></div> -->
+</div></div>

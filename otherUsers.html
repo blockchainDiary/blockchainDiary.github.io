@@ -1,0 +1,106 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20" style="background-color: darkmagenta;">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="form-group">
+                <label class="control-label" for="inputGroup"></label>
+                <div class="input-group">
+                    <input ng-model-options="{allowInvalid: true}" type="text" ng-model="searchTxt" class="form-control"
+                           placeholder="Search" id="inputGroup"/>
+                    <span class="input-group-addon" ng-click="searchUsers(searchTxt)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div><i ng-show="searchLoader" class="fa fa-spinner fa-spin"></i>
+            </div>
+                </div>
+            <a title="Visit Home Page" ng-click="homePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i style="font-size:25px;" class="fa fa-home"></i><br>Home<br><i ng-show="homeLoader" class="fa fa-spinner fa-spin"></i></a>
+            <div id="blcDiary" class="fc-white name col-lg-6 col-md-6 col-sm-6 col-xs-6">BLOCKCHAIN DIARY</div>
+            <a ng-click="notifications()" title="Your notifications" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding mt10"><i class="fa fa-bell"></i><!-- <span class="notification-counter">1</span> --><br>Notifications<br><i ng-show="notificationLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Go to your profile page" ng-click="profilePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-user"></i><br>Profile<br><i ng-show="profileLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Sign Out of Blockchain Diary" ng-click="logout()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-sign-out"></i><br>Log Out</a>
+            
+        </div></div>
+        <div ng-if="noWebExtension" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+<div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3><span>{{otherUserProfile.fullName}}</span>&nbsp;<span>@{{otherUserProfile.userName}}</span></h3>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Total Updates<br>{{otherUserProfile.blogCollection.length}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Followed By<br>{{otherUserProfile.numberOfFollowers}}</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Follows<br>{{otherUserProfile.follows.length}}</div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 alignLeft">
+                    <button ng-if="isfollowing == false || isfollowing == 'false'" id="follow_user" title="Follow the user" ng-click="followUser(otherUserProfile.userName)" style="height:34px;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alterWidth mb20">Follow</button>
+                    <button ng-if="isfollowing == true || isfollowing == 'true'" id="unfollow_user" title="Unfollow the user" ng-click="unfollowUser(otherUserProfile.userName)" style="height:34px;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 alterWidth mb20">Unfollow</button>
+                    </div>
+                    </div>
+                    <!-- <button id="follow_user" title="Follow the user" style="height:34px;" ng-click="followUser(otherUserProfile.userName)" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Follow</button> -->
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="color:red; font-weight:bold;" ng-if="followFailure">{{followStatus}}</h4>
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="color:darkorange;" ng-if="followTakingForever">{{followStatus}}</h4>
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 successMsg" ng-if="followSuccess">{{followStatus}}
+                    </h4>
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="color:red; font-weight:bold;" ng-if="unfollowFailure">{{unfollowStatus}}</h4>
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="color:darkorange;" ng-if="unfollowTakingForever">{{unfollowStatus}}</h4>
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 successMsg" ng-if="unfollowSuccess">{{unfollowStatus}}
+                    </h4>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" ng-class="[(otherUserProfile.blogCollection.length>0)?'hr':'']"></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                    </div>
+                    </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" style="text-align:left; color:lightcyan;" ng-repeat="blogCollection in otherUserProfile.blogCollection | reverse">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb20 mt10">    
+<span>{{otherUserProfile.fullName}}</span>&nbsp;<span>@{{otherUserProfile.userName}}</span><br>
+<span>{{dateFormatter(blogCollection.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(blogCollection.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{blogCollection.blogText}}</div>
+<div class="row col-nopadding mb30">
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <i class="fa fa-comment" title="Comment on this blog" ng-click="commentBlog($index)"></i>
+    <span>&nbsp;{{blogCollection.numberOfComments}}</span>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+<!-- <i class="fa fa-share" title="Share this update" ng-click=""></i> -->
+</div>
+<div ng-if="commentShown[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-nopadding">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding" ng-repeat="comment in blogCollection.blogComments">
+    <div ng-if="blogCollection.blogComments.length>0" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div ng-if="blogCollection.blogComments.length>0" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 col-nopadding">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <span>{{comment.authorFullName}}</span>&nbsp;<span>@{{comment.authorUserName}}</span><br>
+<span>{{dateFormatter(comment.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(comment.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{comment.comment}}</div></div></div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-nopadding row">
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <textarea rows="1" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mt10" style="border-radius:5px;" onfocus="this.rows = '2';" id="blog_comment" onblur="if(this.value == '') this.rows = '1';" placeholder="Add your comment" ng-change="updateComment(blogComment, $index)" type="text" ng-model="blogComment"></textarea>
+    <div ng-if="commentPopulated[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-nopadding" style="text-align:right;">
+        <button id="comment_button" title="Post your comment" ng-click="postComment(otherUserProfile.blogCollection.length-$index-1)" style="height:34px; margin-left:0px;" class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 alterWidth mb20">Post</button>
+    </div></div>
+    <h4 class="successMsg col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 alignCenter" ng-if="commentVariables.commentSuccess">{{commentVariables.commentStatus}}</h4>
+    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 alignCenter" style="color:red; font-weight:bold;" ng-if="commentFailure">{{commentStatus}}
+    </h4>
+    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 alignCenter" style="color:darkorange;" ng-if="commentTakingForever">{{commentStatus}}
+    </h4>
+</div>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div> -->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-class="[$index<(otherUserProfile.blogCollection.length-1)?'hr':'']"></div>
+<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div> -->
+</div>
+        </div>
+        <!-- <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding" ng-include="'footer.html'"></div></div> -->
+    </div>
+        </div></div>
+        

@@ -1,0 +1,101 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb20" style="background-color: darkmagenta;">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+            <div class="form-group">
+                <label class="control-label" for="inputGroup"></label>
+                <div class="input-group">
+                    <input ng-model-options="{allowInvalid: true}" type="text" ng-model="searchTxt" class="form-control"
+                           placeholder="Search" id="inputGroup"/>
+                    <span class="input-group-addon" ng-click="searchUsers(searchTxt)">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div><i ng-show="searchLoader" class="fa fa-spinner fa-spin"></i>
+            </div>
+                </div>
+            <a title="Visit Home Page" ng-click="homePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i style="font-size:25px;" class="fa fa-home"></i><br>Home<br><i ng-show="homeLoader" class="fa fa-spinner fa-spin"></i></a>
+            <div id="blcDiary" class="fc-white name col-lg-6 col-md-6 col-sm-6 col-xs-6">BLOCKCHAIN DIARY</div>
+            <a ng-click="notifications()" title="Your notifications" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-nopadding mt10"><i class="fa fa-bell"></i><!-- <span ng-if="notificationCount>0" class="notification-counter">{{notificationCount}}</span> --><br>Notifications<br><i ng-show="notificationLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Go to your profile page" ng-click="profilePage()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-user"></i><br>Profile<br><i ng-show="profileLoader" class="fa fa-spinner fa-spin"></i></a>
+            <a title="Sign Out of Blockchain Diary" ng-click="logout()" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 mt10"><i class="fa fa-sign-out"></i><br>Log Out</a>
+            
+        </div></div>
+        <div ng-if="noWebExtension" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+<div>
+            <h2 class="successMsg">You're successfully logged in now, {{userCredentials.fullName}}</h2>
+            <textarea rows="2" onfocus="this.rows = '4';" id="blog_input" onblur="if(this.value == '') this.rows = '2';" ng-change="updateBlog(blogText)" placeholder="Blog on Blockchain" type="text" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt30" ng-model="blogText"></textarea>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <button id="blog_button" title="Publish your blog" ng-click="blog(blogText)" style="height:34px; margin-left:0px;" class=" col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Blog</button>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-right:0px;"></div>
+            <button id="erase_button" ng-click="erase()" title="Erase text from the blog input field" style="height:34px; margin-left:0px;" class="secondarybutton col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Erase</button>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+        <div ng-if="blogSuccess || blogFailure || blogTakingForever" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <h4 class="successMsg col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-if="blogSuccess">{{blogStatus}}</h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:red; font-weight:bold;" ng-if="blogFailure">{{blogStatus}}</h4>
+            <h4 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="color:darkorange;" ng-if="blogTakingForever">{{blogStatus}}
+            </h4>
+            <div ng-if="blogSuccess || blogFailure || blogTakingForever" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="row" ng-if="blogListForFeed.length<=0">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <h3 class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mt30" style="color:springgreen;">An Empty Timeline? Let's make sure this is a thing of the past &#x263A;. Invite and follow other users to make this a revolutionary decentralized network.</h3>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <button  id="find_users" ng-click="searchUsers()" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 alterWidth mb20">Find Users</button>
+            </div>
+            </div>
+            <div ng-if="updateFound" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><a style="color:cyan;" ng-click="refreshFeed()">Click here to refresh your feed!!</a></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+            </div>
+            <div ng-if="blogListForFeed.length>0" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding" ng-repeat="blog in blogListForFeed">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+        <div style="text-align:left;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb20 mt20">
+    <span>{{blog.authorFullName}}</span>&nbsp;<span>@{{blog.authorUserName}}</span><br>
+<span>{{dateFormatter(blog.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(blog.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{blog.blogText}}</div>
+<div class="row col-nopadding">
+<div style="text-align:left;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+    <i class="fa fa-comment" title="Comment on this blog" ng-click="commentBlog($index)"></i>
+    <span>&nbsp;{{blog.numberOfComments}}</span>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+<!-- <i class="fa fa-share" title="Share this update" ng-click=""></i> -->
+</div>
+<div ng-if="commentShown[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-nopadding">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding" ng-repeat="comment in blog.blogComments">
+    <div ng-if="blog.blogComments.length>0" class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div ng-if="blog.blogComments.length>0" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 col-nopadding">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <span>{{comment.authorFullName}}</span>&nbsp;<span>@{{comment.authorUserName}}</span><br>
+<span>{{dateFormatter(comment.date)}}</span>&nbsp;at&nbsp;<span>{{timeFormatter(comment.date)}}
+</span><br>                         
+<div class="blogStyle mb10">{{comment.comment}}</div></div></div>
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding row">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <textarea class="col-lg-11 col-md-11 col-sm-11 col-xs-11" rows="1" style="border-radius:5px;" onfocus="this.rows = '2';" id="blog_comment" onblur="if(this.value == '') this.rows = '1';" placeholder="Add your comment" ng-change="updateComment(blogComments, $index)" type="text" ng-model="blogComments"></textarea></div></div>
+<div ng-if="commentPopulated[$index]" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row col-nopadding">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 col-nopadding" style="text-align:right;">
+        <button id="comment_button" title="Post your comment" ng-click="postComment(blogListForFeed.length-$index-1, blog.authorUserName, blog.date)" style="height:34px; margin-left:0px;" class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 alterWidth mb20">Post</button>
+    </div>
+    </div>
+    </div></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-class="[$index<(blogListForFeed.length-1)?'hr':'']"></div>
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+        </div>
+
+    <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt10 col-nopadding" ng-include="'footer.html'"></div> -->
+</div>
+    </div>
+
+            
+        </div>
+        </div>

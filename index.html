@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Diary of a Blockchain Kid</title>
+    <link rel="stylesheet" href="lib/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+</head>
+
+<div ng-cloak>
+<body ng-app="app" ng-controller="myCtrl" id="particles-js">
+        <div ng-show="$state.current.name=='home' || $state.current.name=='prelogin'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                </div>
+            <div id="blcDiary" class="fc-white name col-lg-8 col-md-8 col-sm-8 col-xs-8">BLOCKCHAIN DIARY</div>
+        </div></div>
+        <div ng-if="noWebExtension && ($state.current.name=='home' || $state.current.name=='prelogin')" class="noExtensionWarning">
+            NOTE: You have to install <a target="_blank" href="https://chrome.google.com/webstore/detail/nasextwallet/gehjkhmhclgnkkhpfamakecfgakkfkco">WebExtensionWallet</a>  to use BLOCKCHAIN DIARY
+        </div>
+        <div class="search alignCenter">
+        <div ng-if="$state.current.name=='home'">
+            <a style="color:lawngreen; font-size:25px;" title="Opens a ppt document with all the useful information." href="Blockchain Diary.pptx">Click here to learn how to use this DAPP</a>
+        <div class="mt30 lh_change">
+            <h2>Sign up by entering your details below to blog on Blockchain</h2>
+            <h3>Please click on the info icons below to understand the requirements of these fields</h3>
+            <h4 style="color:red;" id="signUpError" ng-if="signUpError">{{signUpError}}</h4>
+            <h4 ng-if="signUpTakingForever && $state.current.name=='home'" style="color:darkorange;">{{signUpStatus}}</h4>
+            <h4 ng-if="signUpFailed && $state.current.name=='home'" style="color:red; font-weight:bold;">{{signUpStatus}}</h4>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+            <ng-form name="fullNameForm">
+            <input ng-model-options="{allowInvalid: true}" id="full_name" name="fullName" placeholder="Full Name" ng-change="updateName(fullName)" ng-pattern="/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u" type="text" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30 mt30" ng-model="fullName">
+            </ng-form>
+            <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Please enter your full name.')"></i>
+        </div>
+            <div ng-if="!fullNameForm.fullName.$error.pattern" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="fullNameForm.fullName.$error.pattern" id="nameValidError" class="mt30 mb30 alignLeft col-lg-4 col-md-4 col-sm-4 col-xs-4" style="color:red; font-weight:bold;">Name is not valid.</div>
+            <div ng-if="nameLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Name is required. Please enter.</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+            <ng-form name="userNameForm">
+            <input ng-model-options="{allowInvalid: true}" name="userName" id="user_name" placeholder="User Name" ng-change="updateUserName(userName)" type="text" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30" ng-model="userName" ng-pattern="/^[a-z0-9]{4,}/">
+            </ng-form>
+            <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Enter a user name. This is unique and has to be alphanumeric and greater than 3 characters.')"></i></div>
+            <div ng-if="!userNameForm.userName.$error.pattern" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="userNameForm.userName.$error.pattern" id="userNameValidError" class="mb30 alignLeft col-lg-4 col-md-4 col-sm-4 col-xs-4" style="color:red; font-weight:bold;">User Name is not valid.</div>
+            <div ng-if="userNameLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">User Name is required. Please enter.</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+            <ng-form name="authenticatingPinForm">
+            <input id="authenticatingPin_id" ng-model-options="{allowInvalid: true}" placeholder="Authenticating Pin" ng-change="updateAuthenticatingPin(authenticatingPin)" type="authenticatingPin" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30" ng-model="authenticatingPin">
+            </ng-form>
+            <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Enter a pin. This will be required to change your settings when you want to.')"></i></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div ng-if="authenticatingPinLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Authenticating Pin is required. Please enter.</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+            <ng-form name="passwordForm">
+            <input id="password1" ng-model-options="{allowInvalid: true}" name="password1" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/" type="password" ng-model="Password1" ng-change="updatePassword1(Password1);comparePasswords(Password1,Password2)" placeholder="Password" maxlength="20" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30">
+            </ng-form>
+            <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Password should be atleast 8 characters comprising of an uppercase, a lowercase, a special character and a number.')"></i></div>
+            <div ng-if="!passwordForm.password1.$error.pattern" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div id="passValidError" ng-if="passwordForm.password1.$error.pattern" class="mb30 alignLeft col-lg-4 col-md-4 col-sm-4 col-xs-4" style="color:red; font-weight:bold;">Password is not valid.</div>
+                <div ng-if="passwordLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Password is required. Please enter.</div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
+            <input id="password2" type="password" ng-model="Password2" maxlength="20" placeholder="Confirm Password" ng-change="comparePasswords(Password1,Password2)" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30" ng-model="password">
+            <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Please re-enter your chosen password.')"></i></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                </div>
+                <div ng-if="retypePasswordLeftEmpty==true" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 validationMessage">Password needs to be confirmed.</div>
+                <div ng-if="!passMatch" class="validationMessage col-lg-12 col-md-12 col-sm-12 col-xs-12 mb30">Your passwords don't match!!</div>
+            <div id="overlay" ng-click="hideMessage()">
+  <div id="text"></div>
+</div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <button  id="sign_up" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 noLeftMargin width100 mb20" ng-click="signUp(fullName, userName, authenticatingPin, Password1, Password2)">Sign Up</button>
+            <i class="fa fa-info-circle" style="font-size:30px;opacity:0;cursor:auto;"></i></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"><div ng-show="signupLoader" class="mt10 loader"></div></div>
+            <div ng-if="passValidationError || nameValidationError || notMatch || userNameValidationError" class="validationMessage col-lg-12 col-md-12 col-sm-12 col-xs-12">Please correct the validation errors first.</div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Or</div><br>
+
+        <div style="z-index:1000;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span>Already have an account?</span><button id="sign_in" title="Log in to your profile" ng-click="signIn()" class=" col-lg-1 col-md-1 col-sm-1 col-xs-1 alterWidth mb20">Log In</button>
+        <i class="fa fa-info-circle" style="font-size:30px;opacity:0;cursor:auto;"></i></div>
+            </div>
+        </div>
+            <div id="overlay" ng-click="hideMessage()">
+  <div id="text"></div>
+</div></div>
+<h2 ng-if="signUpSuccess && $state.current.name=='prelogin'" class="successMsg">{{signUpStatus}}</h2>
+<ui-view ng-if="$state.current.name!='home'"></ui-view>
+</div>
+    <footer ng-if="$state.current.name=='home' || $state.current.name=='prelogin'" ng-include src="'footer.html'"></footer>
+    <!-- <script src="lib/particles.js"></script>
+    <script src="lib/app.js"></script> -->
+    </body></div>
+
+    <script src=lib/jquery-3.3.1.min.js></script>
+    <script src=lib/nebPay.js></script>
+    <script src=lib/nebulas.js></script>
+    <script src="lib/particles.js"></script>
+    <script src="lib/app.js"></script>
+    <script src=lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
+    <script src="app.js"></script>
+</html>
