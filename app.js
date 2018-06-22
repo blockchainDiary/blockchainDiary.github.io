@@ -27,7 +27,7 @@ var app = angular.module('app', ['ui.router']);
             .state('profile', {
                 url: '/profile',
                 templateUrl: 'profile.html',
-                params: {deleteVariables: null, userCreds: null},
+                params: {userCreds: null},
                 controller: 'myCtrl'
             })
 
@@ -48,7 +48,7 @@ var app = angular.module('app', ['ui.router']);
             .state('otherUsers', {
                 url: '/otherUsers',
                 templateUrl: 'otherUsers.html',
-                params: {otherUserProfile: null, userCreds: null, viewedUser: null, commentVariables: null, isfollowing: null},
+                params: {otherUserProfile: null, userCreds: null, viewedUser: null, isfollowing: null},
                 controller: 'myCtrl'
             })
     })
@@ -75,21 +75,11 @@ var app = angular.module('app', ['ui.router']);
             if(angular.isDefined($stateParams.userList) && $stateParams.userList!=null){
             sessionStorage.setItem("userList" , JSON.stringify($stateParams.userList));
             }
-            if(angular.isDefined($stateParams.deleteVariables) && $stateParams.deleteVariables!=null){
-                if($stateParams.deleteVariables.deleteSuccess!=null){
-            sessionStorage.setItem("deleteSuccess" , $stateParams.deleteVariables.deleteSuccess);
-                }if($stateParams.deleteVariables.deleteStatus!=null){
-            sessionStorage.setItem("deleteStatus" , $stateParams.deleteVariables.deleteStatus);
-                }
-            }
             if(angular.isDefined($stateParams.otherUserProfile) && $stateParams.otherUserProfile!=null){
             sessionStorage.setItem("otherUserProfile" , JSON.stringify($stateParams.otherUserProfile)); 
             }
             if(angular.isDefined($stateParams.viewedUser) && $stateParams.viewedUser!=null){
             sessionStorage.setItem("viewedUser" , $stateParams.viewedUser);
-            }
-            if(angular.isDefined($stateParams.commentVariables) && $stateParams.commentVariables!=null){
-            sessionStorage.setItem("commentVariables" , JSON.stringify($stateParams.commentVariables)); 
             }
             if(angular.isDefined($stateParams.isfollowing) && $stateParams.isfollowing!=null){
             sessionStorage.setItem("isfollowing" , JSON.stringify($stateParams.isfollowing));
@@ -129,9 +119,6 @@ var app = angular.module('app', ['ui.router']);
         }
         if(angular.isDefined(sessionStorage.getItem("viewedUser")) && sessionStorage.getItem("viewedUser")!=null){
         $scope.viewedUser = sessionStorage.getItem("viewedUser");
-        }
-        if(angular.isDefined(sessionStorage.getItem("commentVariables")) && sessionStorage.getItem("commentVariables")!=null){
-        $scope.commentVariables = JSON.parse(sessionStorage.getItem("commentVariables"));
         }
         if(angular.isDefined(sessionStorage.getItem("feedList")) && sessionStorage.getItem("feedList")!=null){
         $scope.blogListForFeed = JSON.parse(sessionStorage.getItem("feedList")); 
@@ -352,7 +339,6 @@ $scope.updateComment = function(comment, index){
     if(angular.isDefined(comment) && comment!=''){
         $scope.commentPopulated[index] = true;
         $scope.commentEntered = comment;
-        $scope.commentVariables = [];
     }
     else{
         $scope.commentPopulated[index] = false;
@@ -368,7 +354,6 @@ $scope.commentBlog = function(index){
         $scope.commentShown[index]=!$scope.commentShown[index];
         if(!$scope.commentShown[index]){
             $scope.commentPopulated[index]=false;
-            $scope.commentVariables = [];
         }
 }  
 
@@ -420,9 +405,6 @@ function addComment(response){
                 commentFuncCalled = 0;
                 $scope.commentSuccess = true;
                 $scope.commentStatus = "Your comment has been successfully submitted."
-                $scope.commentVariables = [];
-                $scope.commentVariables.commentSuccess = $scope.commentSuccess;
-                $scope.commentVariables.commentStatus = $scope.commentStatus;
                 $interval.cancel(executeTxn);
                 if($scope.state.current.name=="profile"){
                     $scope.profilePage();
@@ -1061,13 +1043,10 @@ function userProfile(response){
                 $scope.signUpStatus = false;
                 $scope.userCredentials = result;
                 $scope.$apply();
-                var deleteParams = [];
-                deleteParams.deleteSuccess = $scope.deleteSuccess;
-                deleteParams.deleteStatus = $scope.deleteStatus;
                 if(($scope.state.current.name!="profile") || ($scope.state.current.name=="profile" && ($scope.blogSuccess || $scope.deleteSuccess))){
                 $scope.blogSuccess = false;
                 $scope.deleteSuccess = false;
-                $state.go('profile', {deleteVariables:deleteParams, userCreds: $scope.userCredentials});
+                $state.go('profile', {userCreds: $scope.userCredentials});
                 }
                 $scope.profileLoader = false;
                 $scope.userCredentials = result;
@@ -1133,7 +1112,7 @@ function visitProfile(response){
             if (angular.isDefined(result) && result.userName){
             if($scope.state.current.name!="otherUsers"){      //"return value"
                 $state.go('otherUsers', {otherUserProfile: result, userCreds: $scope.userCredentials, viewedUser: $scope.viewedUser,
-                    commentVariables:$scope.commentVariables, isfollowing:$scope.isfollowing});
+                     isfollowing:$scope.isfollowing});
         }
         if(angular.isDefined($scope.viewLoader) && $scope.viewLoader!=null && angular.isDefined($scope.viewedUserIndex) && $scope.viewedUserIndex!=null){
             $scope.viewLoader[$scope.viewedUserIndex] = false;
