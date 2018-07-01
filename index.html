@@ -56,7 +56,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-nopadding">
             <ng-form name="authenticatingPinForm">
-            <input id="authenticatingPin_id" ng-model-options="{allowInvalid: true}" placeholder="Authenticating Pin" ng-change="updateAuthenticatingPin(authenticatingPin)" type="authenticatingPin" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30" ng-model="authenticatingPin">
+            <input type="password" id="authenticatingPin_id" ng-model-options="{allowInvalid: true}" placeholder="Authenticating Pin" ng-change="updateAuthenticatingPin(authenticatingPin)" type="authenticatingPin" class="col-lg-11 col-md-11 col-sm-11 col-xs-11 mb30" ng-model="authenticatingPin">
             </ng-form>
             <i class="fa fa-info-circle" style="font-size:30px;color:#fff;" ng-click="displayInfoMessage('Enter a pin. This will be required to change your settings when you want to.')"></i></div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
